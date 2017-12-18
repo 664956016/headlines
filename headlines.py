@@ -14,13 +14,13 @@ RSS_FEEDS = {
 'iol':'http://www.iol.co.za/cmlink/1.640'
 }
 
-@app.route("/")  
+@app.route("/", methods=['GET', 'POST'])  
 def get_news():
-	query = request.args.get('publication')
+	query = request.form.get('publication')
 	if not query or query.lower() not in RSS_FEEDS:
 		publication = 'bbc'
 	else:
-		publication = query.lower()
+	    publication = query.lower()
 	feed = feedparser.parse(RSS_FEEDS[publication])
 	return render_template("home.html", articles=feed['entries'])
 
